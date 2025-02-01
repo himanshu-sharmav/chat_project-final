@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,9 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-**0*oyb8!)ejj7u&yqwkv&1spv4psxhsupvk+qnp^emv(kkk3$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 
 # Application definition
@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'chat_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'chatdb',
+        'USER': 'chatuser',
+        'PASSWORD': 'chatdb123@',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
