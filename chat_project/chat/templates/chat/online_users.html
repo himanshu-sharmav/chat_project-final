@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5>Online Users</h5>
+    </div>
+    <div class="card-body">
+        <div id="online-users-list">
+            {% for user in users %}
+            <div class="user-item">
+                <span class="online-indicator"></span>
+                {{ user.username }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %} 
