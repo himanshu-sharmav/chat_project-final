@@ -19,22 +19,12 @@ def register(request):
 
 @login_required
 def index(request):
-    users = User.objects.exclude(username=request.user.username)
-    return render(request, 'chat/index.html', {'users': users})
+    return render(request, 'chat/index.html')
 
 @login_required
-def room(request, username):
-    other_user = User.objects.get(username=username)
-    users = User.objects.exclude(username=request.user.username)
-    messages = Message.objects.filter(
-        Q(sender=request.user, receiver=other_user) |
-        Q(sender=other_user, receiver=request.user)
-    ).order_by('timestamp')
-    
+def room(request, room_name):
     return render(request, 'chat/room.html', {
-        'other_user': other_user,
-        'users': users,
-        'messages': messages
+        'room_name': room_name
     })
 
 def logout_view(request):
@@ -45,4 +35,4 @@ def logout_view(request):
 def online_users(request):
     online_users = cache.get('online_users', set())
     users = User.objects.filter(username__in=online_users)
-    return render(request, 'chat/online_users.html', {'users': users})
+    return render(request, 'chat/online_users.html', {'users': users})  
